@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <script>(function(){try{var t=localStorage.getItem("simplon_theme");if(t==="dark"){document.documentElement.setAttribute("data-theme","dark");}}catch(e){}})();</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SIMPLON Beauty Care Centre</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      position: relative;
+      display: flex; align-items: center; justify-content: center; text-align: center;
+      padding: 80px 20px;
+      overflow: hidden;
+    }
+
+    /* Dark overlay on top of video */
+    #hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(rgba(20,10,14,.55), rgba(20,10,14,.72));
+      z-index: 0;
+    }
+
+    /* Hero video background */
+    #hero-video {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      min-width: 100%;
+      min-height: 100%;
+      width: auto;
+      height: auto;
+      transform: translate(-50%, -50%);
+      object-fit: cover;
+      z-index: -1;
+    }
+
+    /* Hero content sits above overlay */
+    #hero > div {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-tag {
+      display: inline-block;
+      border: 1px solid var(--gold); color: var(--gold);
+      font-size: .95rem; letter-spacing: 3px; text-transform: uppercase;
+      padding: 5px 20px; border-radius: 30px; margin-bottom: 22px;
+      font-weight: 700;
+    }
+    #hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 5rem; color: #fff; line-height: 1.1;
+    }
+    #hero h1 span { color: var(--gold); }
+    #hero p { color: #e0c8d0; font-size: 1.10rem; margin: 18px 0 34px; line-height: 1.9; }
+    .cities { color: var(--gold); font-size: .90rem; letter-spacing: 3px; text-transform: uppercase; margin-top: 20px; font-weight: 700;}
+
+    /* ── FEATURES ── */
+    #features { background: var(--dark); padding: 60px 20px; }
+    .feat-item { text-align: center; padding: 20px; }
+    .feat-icon { font-size: 1.8rem; color: var(--gold); margin-bottom: 12px; }
+    .feat-item h5 { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; color: #fff; margin-bottom: 6px; font-weight: 600;}
+    .feat-item p { font-size: 0.95rem; color: #7a5566; line-height: 1.7; font-weight: 600;}
+
+    /* ── ABOUT PREVIEW ── */
+    #about-preview { background: #fff; }
+    .about-img { width: 100%; height: 480px; object-fit: cover; border-radius: 3px; }
+    .about-text p { color: var(--mid); line-height: 1.9; font-size: 1rem; margin-bottom: 16px; }
+    .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 28px; }
+    .stat-box { border-left: 3px solid var(--gold); padding-left: 14px; }
+    .stat-box h2 { font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; color: var(--rose); font-weight: 600;}
+    .stat-box p { font-size: .90rem; color: var(--mid); letter-spacing: 1.5px; text-transform: uppercase; margin: 0; font-weight: 600;}
+
+    /* ── PRODUCT PREVIEW ── */
+    #product-preview { background: var(--cream); }
+    .prod-card {
+      background: #fff; border-radius: 3px; overflow: hidden;
+      transition: .35s; box-shadow: 0 2px 12px rgba(0,0,0,.06); margin-bottom: 24px;
+    }
+    .prod-card:hover { transform: translateY(-6px); box-shadow: 0 12px 30px rgba(181,85,106,.18); }
+    .prod-card img { width: 100%; height: 220px; object-fit: cover; }
+    .prod-card-body { padding: 18px; }
+    .prod-card-body h4 { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; color: var(--dark); font-weight: 600;}
+    .prod-card-body p { font-size: 1rem; color: var(--mid); margin: 4px 0 10px; font-weight: 600;}
+    .prod-price { font-size: 1rem; font-weight: 500; color: var(--rose); font-weight: 600;}
+
+    /* ── BEST SELLERS — self-contained carousel (no external library) ── */
+    #bestSellersCarousel { position: relative; }
+    #bestSellersCarousel .bs-viewport { overflow: hidden; padding: 4px 4px 12px; }
+    #bestSellersCarousel .bs-track {
+      display: flex; flex-wrap: nowrap;
+      transition: transform .45s ease;
+    }
+    #bestSellersCarousel .bs-slide {
+      flex: 0 0 100%; max-width: 100%; box-sizing: border-box; padding: 0 10px;
+    }
+    @media (min-width: 576px) {
+      #bestSellersCarousel .bs-slide { flex: 0 0 50%; max-width: 50%; }
+    }
+    @media (min-width: 768px) {
+      #bestSellersCarousel .bs-slide { flex: 0 0 25%; max-width: 25%; }
+    }
+
+    #bestSellersCarousel .bs-arrow {
+      position: absolute; top: 40%; transform: translateY(-50%);
+      width: 42px; height: 42px; border: none; border-radius: 50%;
+      background: var(--gold); color: var(--dark);
+      font-size: 1.3rem; line-height: 1; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: .25s; z-index: 2;
+    }
+    #bestSellersCarousel .bs-arrow:hover { background: var(--rose); color: #fff; }
+    #bestSellersCarousel .bs-prev { left: -10px; }
+    #bestSellersCarousel .bs-next { right: -10px; }
+
+    #bestSellersCarousel .bs-dots { text-align: center; margin-top: 4px; }
+    #bestSellersCarousel .bs-dots button {
+      width: 9px; height: 9px; border-radius: 50%; border: none;
+      background: #e3c9cf; margin: 0 4px; padding: 0; cursor: pointer;
+    }
+    #bestSellersCarousel .bs-dots button.active { background: var(--gold); }
+
+    @media (max-width: 575.98px) {
+      #bestSellersCarousel .bs-arrow { width: 32px; height: 32px; font-size: 1.05rem; }
+      #bestSellersCarousel .bs-prev { left: 2px; }
+      #bestSellersCarousel .bs-next { right: 2px; }
+    }
+
+    /* ── TESTIMONIAL ── */
+    #testimonials { background: var(--rose-dk); padding: 80px 20px; }
+    .testi-card { background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.12); border-radius: 4px; padding: 30px; margin-bottom: 20px; }
+    .testi-card p { color: #f0d8de; font-size: 1rem; line-height: 1.8; font-style: italic; font-weight: 600;}
+    .testi-name { color: var(--gold); font-size: .9rem; letter-spacing: 2px; text-transform: uppercase; margin-top: 14px; font-weight: 600;}
+    .stars { color: var(--gold); font-size: .85rem; margin-bottom: 10px; }
+
+    /* ── CTA BANNER ── */
+    #cta {
+      background: linear-gradient(rgba(30,16,20,.75), rgba(30,16,20,.75)),
+        url('https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=1600&auto=format&fit=crop') center/cover no-repeat;
+      padding: 100px 20px; text-align: center;
+    }
+    #cta h2 { font-family: 'Cormorant Garamond', serif; font-size: 3rem; color: #fff; margin-bottom: 14px; }
+    #cta p { color: #e0c8d0; font-size: 1.2rem; margin-bottom: 30px; }
+
+    /* ============ RESPONSIVE OVERRIDES ============ */
+    html { overflow-x: hidden; }
+    img, video { max-width: 100%; }
+
+    @media (max-width: 991px) {
+      #hero h1 { font-size: 3.4rem; }
+      #hero p { font-size: 1rem; }
+      .about-img { height: 340px; margin-bottom: 24px; }
+    }
+
+    @media (max-width: 767px) {
+      #hero { min-height: 92vh; padding: 70px 16px; }
+      #hero h1 { font-size: 2.5rem; }
+      .hero-tag { font-size: .75rem; letter-spacing: 1.5px; padding: 5px 14px; }
+      #hero p { font-size: .92rem; line-height: 1.7; margin: 14px 0 24px; }
+      #hero a.btn-gold, #hero a.btn-outline-gold { display: inline-block; margin: 6px 4px !important; padding: 10px 22px; font-size: .85rem; }
+      .cities { font-size: .72rem; letter-spacing: 1.5px; line-height: 1.8; }
+
+      #features { padding: 40px 16px; }
+      .feat-item { padding: 14px 8px; }
+      .feat-item h5 { font-size: 1.15rem; }
+      .feat-item p { font-size: .85rem; }
+
+      .about-img { height: 260px; }
+      .stat-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+      .stat-box h2 { font-size: 1.9rem; }
+      .stat-box p { font-size: .75rem; }
+
+      .prod-card img { height: 160px; }
+      .prod-card-body { padding: 12px; }
+      .prod-card-body h4 { font-size: 1.05rem; }
+
+      #cta { padding: 60px 16px; }
+      #cta h2 { font-size: 1.9rem; }
+      #cta p { font-size: 1rem; }
+
+      .testi-card { padding: 20px; }
+    }
+
+    @media (max-width: 480px) {
+      #hero h1 { font-size: 2rem; }
+      .stat-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    /* Cards go full-width below the sm breakpoint, so give the image a bit more room */
+    @media (max-width: 575.98px) {
+      .prod-card img { height: 200px; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="navbar-placeholder"></div>
+
+<!-- HERO with local MP4 background -->
+<section id="hero">
+  <video id="hero-video" autoplay muted loop playsinline>
+    <source src="1.mp4" type="video/mp4"/>
+  </video>
+  <div class="animate__animated animate__fadeInUp">
+    <div class="hero-tag"><i class="fa-solid fa-crown me-2"></i>Est. 1985 — Pakistan's Trusted Beauty Brand</div>
+    <h1>Your Beauty,<br/><span>Our Passion</span></h1>
+    <p>Premium cosmetics & accessories crafted for every woman.<br/>Elegant. Affordable. Timeless.</p>
+    <a href="products.html" class="btn-gold me-3">Explore Products</a>
+    <a href="contact.html" class="btn-outline-gold">Find a Store</a>
+    <div class="cities mt-4"><i class="fa-solid fa-location-dot me-2"></i>Karachi &nbsp;·&nbsp; Lahore &nbsp;·&nbsp; Islamabad &nbsp;·&nbsp; Peshawar</div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="container">
+    <div class="row">
+      <div class="col-6 col-md-3 feat-item">
+        <div class="feat-icon"><i class="fa-solid fa-certificate"></i></div>
+        <h5>Certified Quality</h5>
+        <p>All products tested and certified for skin safety.</p>
+      </div>
+      <div class="col-6 col-md-3 feat-item">
+        <div class="feat-icon"><i class="fa-solid fa-truck-fast"></i></div>
+        <h5>Fast Delivery</h5>
+        <p>Free delivery on orders above Rs. 2000 across Pakistan.</p>
+      </div>
+      <div class="col-6 col-md-3 feat-item">
+        <div class="feat-icon"><i class="fa-solid fa-rotate-left"></i></div>
+        <h5>Easy Returns</h5>
+        <p>7-day hassle-free return & exchange policy.</p>
+      </div>
+      <div class="col-6 col-md-3 feat-item">
+        <div class="feat-icon"><i class="fa-solid fa-headset"></i></div>
+        <h5>24/7 Support</h5>
+        <p>Our team is always here to assist you.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT PREVIEW -->
+<section id="about-preview">
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-md-5">
+        <img src="asserts/trusted-pic.png" class="about-img" alt="SIMPLON Store"/>
+      </div>
+      <div class="col-md-7">
+        <div class="sec-label"><i class="fa-solid fa-leaf me-2"></i>Our Story</div>
+        <div class="sec-title">A Legacy of<br/>Beauty & Trust</div>
+        <div class="sec-line left"></div>
+        <p style="font-weight: 700;">Since 1985, SIMPLON Beauty Care Centre has been synonymous with quality, trust, and elegance. What started as a single store has blossomed into a beloved brand with branches in Pakistan's major cities.</p>
+        <p style="font-weight: 700;">We bring you the finest cosmetics, skincare, haircare, jewellery, and bridal packages — all under one roof.</p>
+        <div class="stat-grid">
+          <div class="stat-box"><h2>4+</h2><p>City Branches</p></div>
+          <div class="stat-box"><h2>39</h2><p>Years of Trust</p></div>
+          <div class="stat-box"><h2>500+</h2><p>Products</p></div>
+          <div class="stat-box"><h2>10k+</h2><p>Happy Customers</p></div>
+        </div>
+        <a href="about.html" class="btn-gold mt-4 d-inline-block">Read More</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCT PREVIEW — Best Sellers Carousel -->
+<section id="product-preview">
+  <div class="container">
+    <div class="text-center">
+      <div class="sec-label"><i class="fa-solid fa-bag-shopping me-2"></i>Featured</div>
+      <div class="sec-title">Our Best Sellers</div>
+      <div class="sec-line"></div>
+    </div>
+
+    <!-- Self-contained carousel wrapper -->
+    <div id="bestSellersCarousel">
+      <div class="bs-viewport">
+        <div class="bs-track" id="bsTrack">
+
+          <div class="bs-slide">
+            <div class="prod-card" onclick="location.href='product-detail.html?product=Herbal%20Shampoo'" style="cursor:pointer;">
+              <img src="https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?w=500&auto=format&fit=crop" alt="Hair Care"/>
+              <div class="prod-card-body">
+                <h4><i class="fa-solid fa-wind me-2" style="font-size:.85rem;color:var(--mid)"></i>Hair Care</h4>
+                <p>Shampoo, Serums & more</p>
+                <span class="prod-price">From Rs. 350</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="bs-slide">
+            <div class="prod-card" onclick="location.href='product-detail.html?product=Pro%20Makeup%20Kit'" style="cursor:pointer;">
+              <img src="https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=500&auto=format&fit=crop" alt="Makeup Kits"/>
+              <div class="prod-card-body">
+                <h4><i class="fa-solid fa-wand-sparkles me-2" style="font-size:.85rem;color:var(--mid)"></i>Makeup Kits</h4>
+                <p>Foundation, Blush & more</p>
+                <span class="prod-price">From Rs. 1800</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="bs-slide">
+            <div class="prod-card" onclick="location.href='product-detail.html?product=Gold%20Plated%20Set'" style="cursor:pointer;">
+              <img src="https://images.unsplash.com/photo-1611652022419-a9419f74343d?w=500&auto=format&fit=crop" alt="Jewellery"/>
+              <div class="prod-card-body">
+                <h4><i class="fa-solid fa-gem me-2" style="font-size:.85rem;color:var(--mid)"></i>Jewellery</h4>
+                <p>Rings, Earrings & more</p>
+                <span class="prod-price">From Rs. 1200</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="bs-slide">
+            <div class="prod-card" onclick="location.href='product-detail.html?product=Complete%20Bridal%20Kit'" style="cursor:pointer;">
+              <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiY8Kv6tDObrTXO4p11Ps-BUFq4ROMlrOg6kQsiQI-1hyphenhyphenalzfZjxmoqIsQYDcDv-pqND6CkCPu_MeTpfIxbWbAk6JBUHaDj3jWTJYbmSiY_6merdvQ8gCEOvmazuMWTaFEQZZW21H8e3HV3/s1600/Khushi_World_BridalMakeUpKit1.jpg" alt="Wedding Kits"/>
+              <div class="prod-card-body">
+                <h4><i class="fa-solid fa-heart me-2" style="font-size:.85rem;color:var(--mid)"></i>Wedding Kits</h4>
+                <p>Complete Bridal Packages</p>
+                <span class="prod-price">From Rs. 5500</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="bs-slide">
+            <div class="prod-card" onclick="location.href='product-detail.html?product=Vitamin%20C%20Moisturizer'" style="cursor:pointer;">
+              <img src="https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=500&auto=format&fit=crop" alt="Skin Care"/>
+              <div class="prod-card-body">
+                <h4><i class="fa-solid fa-droplet me-2" style="font-size:.85rem;color:var(--mid)"></i>Skin Care</h4>
+                <p>Moisturisers, Masks & more</p>
+                <span class="prod-price">From Rs. 850</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="bs-slide">
+            <div class="prod-card" onclick="location.href='product-detail.html?product=Nail%20Paint%20Set'" style="cursor:pointer;">
+              <img src="https://images.unsplash.com/photo-1604654894610-df63bc536371?w=500&auto=format&fit=crop" alt="Nail"/>
+              <div class="prod-card-body">
+                <h4><i class="fa-solid fa-hand-sparkles me-2" style="font-size:.85rem;color:var(--mid)"></i>Nail Care</h4>
+                <p>Nail Paints, Gel Kits & more</p>
+                <span class="prod-price">From Rs. 480</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="bs-slide">
+            <div class="prod-card" onclick="location.href='product-detail.html?product=Matte%20Lipstick%20Set'" style="cursor:pointer;">
+              <img src="https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=800&auto=format&fit=crop" alt="Lipstick"/>
+              <div class="prod-card-body">
+                <h4><i class="fa-solid fa-wand-sparkles me-2" style="font-size:.85rem;color:var(--mid)"></i>Lip Colour</h4>
+                <p>Matte, Gloss & Ombre sets</p>
+                <span class="prod-price">From Rs. 950</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="bs-slide">
+            <div class="prod-card" onclick="location.href='product-detail.html?product=Argan%20Hair%20Serum'" style="cursor:pointer;">
+              <img src="https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?w=500&auto=format&fit=crop" alt="Hair Serum"/>
+              <div class="prod-card-body">
+                <h4><i class="fa-solid fa-wind me-2" style="font-size:.85rem;color:var(--mid)"></i>Hair Serums</h4>
+                <p>Argan, Keratin & more</p>
+                <span class="prod-price">From Rs. 650</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="bs-slide">
+            <div class="prod-card" onclick="location.href='product-detail.html?product=Bridal%20Jewellery%20Set'" style="cursor:pointer;">
+              <img src="https://images.unsplash.com/photo-1535632787350-4e68ef0ac584?w=500&auto=format&fit=crop" alt="Bridal Jewellery"/>
+              <div class="prod-card-body">
+                <h4><i class="fa-solid fa-star me-2" style="font-size:.85rem;color:var(--mid)"></i>Bridal Jewellery</h4>
+                <p>Necklace, Tikka & Bangles</p>
+                <span class="prod-price">From Rs. 4200</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="bs-slide">
+            <div class="prod-card" onclick="location.href='product-detail.html?product=Eyeshadow%20Palette'" style="cursor:pointer;">
+              <img src="https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=500&auto=format&fit=crop" alt="Eyeshadow"/>
+              <div class="prod-card-body">
+                <h4><i class="fa-solid fa-eye me-2" style="font-size:.85rem;color:var(--mid)"></i>Eye Makeup</h4>
+                <p>Palettes, Liners & Mascaras</p>
+                <span class="prod-price">From Rs. 1350</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="bs-slide">
+            <div class="prod-card" onclick="location.href='product-detail.html?product=SPF%2050%20Sunscreen'" style="cursor:pointer;">
+              <img src="https://images.unsplash.com/photo-1617897903246-719242758050?w=500&auto=format&fit=crop" alt="Sunscreen"/>
+              <div class="prod-card-body">
+                <h4><i class="fa-solid fa-sun me-2" style="font-size:.85rem;color:var(--mid)"></i>Sun Protection</h4>
+                <p>SPF 30, 50 & Tinted options</p>
+                <span class="prod-price">From Rs. 720</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="bs-slide">
+            <div class="prod-card" onclick="location.href='product-detail.html?product=Bridal%20Fragrance%20Set'" style="cursor:pointer;">
+              <img src="https://images.unsplash.com/photo-1547887537-6158d64c35b3?w=800&auto=format&fit=crop" alt="Fragrance"/>
+              <div class="prod-card-body">
+                <h4><i class="fa-solid fa-spray-can me-2" style="font-size:.85rem;color:var(--mid)"></i>Fragrances</h4>
+                <p>Luxury Bridal Perfume Sets</p>
+                <span class="prod-price">From Rs. 2800</span>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /.bs-track -->
+      </div><!-- /.bs-viewport -->
+
+      <button class="bs-arrow bs-prev" type="button" aria-label="Previous">&#8249;</button>
+      <button class="bs-arrow bs-next" type="button" aria-label="Next">&#8250;</button>
+      <div class="bs-dots" id="bsDots"></div>
+
+    </div><!-- /#bestSellersCarousel -->
+
+    <div class="text-center mt-4">
+      <a href="products.html" class="btn-gold">View All Products</a>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="container">
+    <div class="text-center">
+      <div class="sec-label" style="color:var(--gold)"><i class="fa-solid fa-quote-left me-2"></i>Testimonials</div>
+      <div class="sec-title" style="color:#fff">What Our Customers Say</div>
+      <div class="sec-line"></div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="testi-card">
+          <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+          <p>"SIMPLON has the best bridal kits in Lahore. My wedding look was absolutely stunning!"</p>
+          <div class="testi-name">— Ayesha R., Lahore</div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="testi-card">
+          <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+          <p>"Amazing quality products at such affordable prices. I've been a loyal customer since 2010!"</p>
+          <div class="testi-name">— Sana M., Karachi</div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="testi-card">
+          <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i></div>
+          <p>"The Islamabad branch has great staff and a wonderful collection. Highly recommended!"</p>
+          <div class="testi-name">— Fatima K., Islamabad</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BANNER -->
+<section id="cta">
+  <div class="container">
+    <h2>Ready to Look Your Best?</h2>
+    <p>Browse our full collection of premium beauty products.</p>
+    <a href="products.html" class="btn-gold me-3">Shop Now</a>
+  </div>
+</section>
+
+<div id="footer-placeholder"></div>
+<button id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})"><i class="fa-solid fa-arrow-up"></i></button>
+<div id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script>
+  // Self-contained Best Sellers carousel — no external library required.
+  (function () {
+    var root = document.getElementById('bestSellersCarousel');
+    if (!root) return;
+
+    var track = document.getElementById('bsTrack');
+    var slides = track.children;
+    var total = slides.length;
+    var prevBtn = root.querySelector('.bs-prev');
+    var nextBtn = root.querySelector('.bs-next');
+    var dotsWrap = document.getElementById('bsDots');
+    var index = 0;
+    var timer = null;
+
+    function itemsPerView() {
+      var w = window.innerWidth;
+      if (w >= 768) return 4;
+      if (w >= 576) return 2;
+      return 1;
+    }
+
+    function totalPages() {
+      return Math.max(1, Math.ceil(total / itemsPerView()));
+    }
+
+    function buildDots() {
+      dotsWrap.innerHTML = '';
+      var pages = totalPages();
+      for (var i = 0; i < pages; i++) {
+        var d = document.createElement('button');
+        d.type = 'button';
+        d.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+        d.dataset.i = i;
+        d.addEventListener('click', function () {
+          goTo(parseInt(this.dataset.i, 10));
+          restart();
+        });
+        dotsWrap.appendChild(d);
+      }
+    }
+
+    function render() {
+      var pages = totalPages();
+      if (index > pages - 1) index = pages - 1;
+      track.style.transform = 'translateX(-' + (index * 100) + '%)';
+      var dots = dotsWrap.children;
+      for (var i = 0; i < dots.length; i++) {
+        dots[i].classList.toggle('active', i === index);
+      }
+    }
+
+    function goTo(i) {
+      var pages = totalPages();
+      index = ((i % pages) + pages) % pages;
+      render();
+    }
+
+    function next() { goTo(index + 1); }
+    function prev() { goTo(index - 1); }
+
+    function restart() {
+      clearInterval(timer);
+      timer = setInterval(next, 3500);
+    }
+
+    nextBtn.addEventListener('click', function () { next(); restart(); });
+    prevBtn.addEventListener('click', function () { prev(); restart(); });
+    root.addEventListener('mouseenter', function () { clearInterval(timer); });
+    root.addEventListener('mouseleave', restart);
+
+    var resizeTimer;
+    window.addEventListener('resize', function () {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(function () { buildDots(); render(); }, 150);
+    });
+
+    buildDots();
+    render();
+    restart();
+  })();
+</script>
+<script src="common.js"></script>
+<script>renderNav('Home'); renderFooter(); initScrollTop();</script>
+<script src="animations.js"></script>
+</body>
+</html>
